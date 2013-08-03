@@ -33,6 +33,7 @@ func main() {
 
 	if *encrypt {
 		input := bufio.NewReader(os.Stdin)
+		fmt.Print("input: ")
 		line, _, _ := input.ReadLine()
 		text := strings.TrimSpace(string(line))
 		cipherText := secret.Seal([]byte(text))
