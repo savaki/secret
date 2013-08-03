@@ -67,3 +67,8 @@ This is useful in a number of scenarios:
    DB_USERNAME_CIPHER = "base64-encoded-cipher-text-of-username"
    DB_PASSWORD_CIPHER = "base64-encoded-cipher-text-of-password"
    ```
+
+
+## Notes
+
+Secret utilizes the golang secret port [link](http://godoc.org/code.google.com/p/go.crypto/nacl/secretbox) which was based on the original [NaCl project](http://nacl.cr.yp.to/secretbox.html)
