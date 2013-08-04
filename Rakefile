@@ -49,6 +49,11 @@ namespace :vagrant do
   task :destroy do
     exec "vagrant destroy"
   end
+
+  desc "vagrant build"
+  task :build do
+    exec "BUILD=true vagrant up"
+  end
 end
 
 namespace :deb do 

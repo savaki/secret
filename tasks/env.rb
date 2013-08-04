@@ -13,4 +13,8 @@
 #   limitations under the License.
 
 DIST    = "dist"
-VERSION = "1"
+VERSION = "2"
+
+build   = false
+build   = true if ENV["BUILD"] =~ /true/
+BUILD   = build
