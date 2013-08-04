@@ -15,6 +15,7 @@ var (
 	filename = flag.String("filename", "/etc/secret", "reads the specified secret file")
 	create   = flag.String("create", "", "creates a new secret and writes it to the specified file")
 	encrypt  = flag.Bool("encrypt", false, "encrypt data from stdin")
+	decrypt  = flag.Bool("decrypt", false, "decrypt data from stdin")
 )
 
 func main() {
@@ -31,14 +32,27 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	if *encrypt {
+	if *encrypt || *decrypt {
 		input := bufio.NewReader(os.Stdin)
-		fmt.Print("input: ")
 		line, _, _ := input.ReadLine()
 		text := strings.TrimSpace(string(line))
-		cipherText := secret.Seal([]byte(text))
-		base64Text := base64.StdEncoding.EncodeToString(cipherText)
-		fmt.Println(base64Text)
+
+		if *encrypt {
+			cipherText := secret.Seal([]byte(text))
+			base64Text := base64.StdEncoding.EncodeToString(cipherText)
+			fmt.Println(base64Text)
+
+		} else {
+			cipherText, err := base64.StdEncoding.DecodeString(text)
+			if err != nil {
+				log.Fatal(err)
+			}
+			plainText, ok := secret.Open(cipherText)
+			if !ok {
+				log.Fatal("unable to open secret")
+			}
+			fmt.Println(string(plainText))
+		}
 		return
 	}
 
